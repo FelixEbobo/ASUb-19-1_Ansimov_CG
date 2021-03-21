@@ -10,7 +10,10 @@ import javax.swing.*;
 public class Window {
 
     public static void main( String [] args ) {
-        GLProfile glprofile = GLProfile.getDefault();
+        GLProfile.initProfiles(GLProfile.getDefaultDevice());
+        var glprofile = GLProfile.getDefault();
+        System.out.println(glprofile.getName() + " " + glprofile.isGL4bc());
+//        GLProfile glprofile = GLProfile.getDefault();
 //        GLProfile glprofile = GLProfile.get(GLProfile.GL4);
         GLCapabilities glcapabilities = new GLCapabilities( glprofile );
         GLCanvas glcanvas = new GLCanvas( glcapabilities );
@@ -26,7 +29,7 @@ public class Window {
             public void init( GLAutoDrawable glautodrawable ) {
                 var gl = glautodrawable.getGL().getGL2();
                 gl.glEnable(GL.GL_CULL_FACE);
-                TextureLoader.loadCube();
+                TextureLoader.loadCube(gl);
             }
 
             @Override
@@ -35,7 +38,7 @@ public class Window {
 
             @Override
             public void display( GLAutoDrawable glautodrawable ) {
-                var gl = glautodrawable.getGL().getGL2();
+                var gl = glautodrawable.getGL().getGL4bc();
                 gl.glEnable(GL.GL_TEXTURE_2D);
                 gl.glTexEnvf(GL2.GL_TEXTURE_ENV, GL2.GL_TEXTURE_ENV_MODE, GL2.GL_MODULATE);
                 DrawClass.display( glautodrawable);
