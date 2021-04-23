@@ -15,7 +15,6 @@ public class Window extends JFrame implements KeyListener{
 
     protected static float xView, yView;
     protected static float zView;
-    protected static float CameraX, CameraY, CameraZ;
     public static float aView = 45f;
     protected static String label = String.format("x: %f y: %f z: %f aView: %f", xView, yView, zView, aView);
     private static Texture chessBoardText;
@@ -50,15 +49,11 @@ public class Window extends JFrame implements KeyListener{
                 gl.glEnable(GL2.GL_LIGHT0);
                 gl.glLightiv(GL2.GL_LIGHT0, GL2.GL_POSITION, new int[] { -1, 1, -1, 0 },0);
                 gl.glEnable(GL2.GL_FOG);
-//                gl.glFogfv(GL2.GL_FOG_COLOR, new float[] { 0, 0, 0, 1 }, 0);
                 gl.glFogfv(GL2.GL_FOG_COLOR, new float[] { .9f, .9f, 1, 0 }, 0);
                 gl.glFogf(GL2.GL_FOG_DENSITY, .05f);
-//                gl.glClearColor(.53f,.81f,.92f,0);
                 gl.glClearColor(.9f, .9f, 1, 0);
 
                 grassText = TextureLoader.load(gl, "Grass.png");
-//                chessBoardText = TextureLoader.load(gl,"ChessBoard.png");
-                TextureLoader.loadCube(gl);
             }
 
             @Override
@@ -106,31 +101,23 @@ public class Window extends JFrame implements KeyListener{
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_UP)
-            yView += .5;
+            zView += 1;
         else if (e.getKeyCode() == KeyEvent.VK_DOWN)
-            yView -= .5;
+            zView -= 1;
         else if (e.getKeyCode() == KeyEvent.VK_LEFT)
-            xView -= .5;
+            xView += 1;
         else if (e.getKeyCode() == KeyEvent.VK_RIGHT)
-            xView += .5;
+            xView -= 1;
         else if (e.getKeyCode() == KeyEvent.VK_PAGE_UP) {
-            aView -= 2;
+            yView += 2;
         } else if (e.getKeyCode() == KeyEvent.VK_PAGE_DOWN) {
-            aView += 2;
+            yView -= 2;
         } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            aView = 45f;
             xView = 0;
             yView = 0;
+            zView = 0;
         } else if (e.getKeyCode() == KeyEvent.VK_E) {
             System.out.println("You achieved comedy");
-        } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            CameraZ += .5;
-        } else if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
-            CameraZ -= .5;
-        } else if (e.getKeyCode() == KeyEvent.VK_D) {
-            CameraX += .5;
-        } else if (e.getKeyCode() == KeyEvent.VK_A) {
-            CameraX -= .5;
         }
     }
 

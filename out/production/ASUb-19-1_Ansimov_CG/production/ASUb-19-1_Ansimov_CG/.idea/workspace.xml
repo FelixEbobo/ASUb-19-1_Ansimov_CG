@@ -2,11 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7e66cf00-4a57-4518-9a4d-a3252b703774" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Lab3/DrawClass.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Lab3/TerrainLoader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Lab3/Window.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ASUb-19-1_Ansimov_CG.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ASUb-19-1_Ansimov_CG.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ASUb-19-1_Ansimov_CG/production/ASUb-19-1_Ansimov_CG/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ASUb-19-1_Ansimov_CG/production/ASUb-19-1_Ansimov_CG/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ASUb-19-1_Ansimov_CG/production/ASUb-19-1_Ansimov_CG/Lab3/DrawClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ASUb-19-1_Ansimov_CG/production/ASUb-19-1_Ansimov_CG/Lab3/DrawClass.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ASUb-19-1_Ansimov_CG/production/ASUb-19-1_Ansimov_CG/Lab3/Window.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ASUb-19-1_Ansimov_CG/production/ASUb-19-1_Ansimov_CG/Lab3/Window.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Lab3/DrawClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Lab3/DrawClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Lab3/Window.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Lab3/Window.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

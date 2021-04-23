@@ -1,14 +1,11 @@
 package Lab3;
 
-import Lab2.TextureLoader;
-import Lab3.Window;
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.glu.GLU;
-import com.jogamp.opengl.util.awt.TextRenderer;
-
-import java.awt.*;
+import static Lab3.Window.xView;
+import static Lab3.Window.zView;
 
 public class DrawClass {
     private static int mapSize = 256;
@@ -32,48 +29,72 @@ public class DrawClass {
         gl.glLoadIdentity();
         glu.gluPerspective(Lab3.Window.aView, h, 1.0, 60);
 
-        glu.gluLookAt(Lab3.Window.xView, 0, 4, Window.CameraX, Lab3.Window.yView, Window.CameraZ, 0, 4, 0);
+        glu.gluLookAt(0, Window.yView, 3, 0, 0, 0, 0, 1, 0);
         gl.glMatrixMode(GL2.GL_MODELVIEW);
 
         gl.glEnable(GL2.GL_DEPTH_TEST);
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
-
-
         gl.glTexEnvf(gl.GL_TEXTURE_ENV, gl.GL_TEXTURE_ENV_MODE, gl.GL_MODULATE);
 
         gl.glBindTexture(GL2.GL_TEXTURE_2D, Window.getGrassText().getTextureObject());
-        drawLab3(gl);
+        int zV = (int) ((Window.zView-(Window.zView%105))/105);
+        int xV = (int) ((Window.xView-(Window.xView%105))/105);
 
+        drawLab3(gl, mapSize - mapSize * xV, 2 * mapSize - mapSize * xV,
+                 - mapSize - mapSize * zV, - mapSize * zV);
+
+        drawLab3(gl,  - mapSize * xV, mapSize - mapSize * xV,
+                - mapSize - mapSize * zV, - mapSize * zV);
+
+        drawLab3(gl, - mapSize - mapSize * xV,  - mapSize * xV,
+                - mapSize - mapSize * zV, - mapSize * zV);
+
+        drawLab3(gl, mapSize - mapSize * xV, 2 * mapSize - mapSize * xV,
+                 - mapSize * zV, mapSize - mapSize * zV);
+
+        drawLab3(gl,  - mapSize * xV, mapSize - mapSize * xV,
+                 - mapSize * zV, mapSize - mapSize * zV);
+
+        drawLab3(gl, - mapSize - mapSize * xV,  - mapSize * xV,
+                 - mapSize * zV, mapSize - mapSize * zV);
+
+        drawLab3(gl, mapSize - mapSize * xV, 2 * mapSize - mapSize * xV,
+                mapSize - mapSize * zV, 2 * mapSize - mapSize * zV);
+
+        drawLab3(gl,  - mapSize * xV, mapSize - mapSize * xV,
+                mapSize - mapSize * zV, 2 * mapSize - mapSize * zV);
+
+        drawLab3(gl, - mapSize - mapSize * xV,  - mapSize * xV,
+                 mapSize - mapSize * zV, 2 * mapSize - mapSize * zV);
 
     }
 
-    public static void drawLab3(GL2 gl) {
+    public static void drawLab3(GL2 gl, int initialPoint1, int breakingPoint1, int initialPoint2, int breakingPoint2) {
         gl.glBegin(GL2.GL_TRIANGLES);
-        for (var x = 0; x < mapSize; x+=stepSize)
-            for (var z = 0; z < mapSize; z+=stepSize)
+        for (var x = initialPoint1; x < breakingPoint1; x+=stepSize)
+            for (var z = initialPoint2; z < breakingPoint2; z += stepSize)
             {
                 var y1 = -getHeight(x,z)/10;
                 var y2 = -getHeight(x+stepSize,z)/10;
                 var y3 = -getHeight(x+stepSize,z+stepSize)/10;
                 var y4 = -getHeight(x,z+stepSize)/10;
                 var x1 = 100*x/mapSize-50;
-
                 var x2 = 100*(x+16)/mapSize-50;
                 var z1 = 100*z/mapSize-50;
                 var z2 = 100*(z+16)/mapSize-50;
-                gl.glTexCoord2d(0, 0); gl.glVertex3d(x1, y1, z1);
-                gl.glTexCoord2d(1, 0); gl.glVertex3d(x2, y2, z1);
-                gl.glTexCoord2d(1, 1); gl.glVertex3d(x2, y3, z2);
-                gl.glTexCoord2d(1, 1); gl.glVertex3d(x2, y3, z2);
-                gl.glTexCoord2d(0, 1); gl.glVertex3d(x1, y4, z2);
-                gl.glTexCoord2d(0, 0); gl.glVertex3d(x1, y1, z1);
+                gl.glTexCoord2d(0, 0); gl.glVertex3d(x1 + xView, y1, z1 + zView);
+                gl.glTexCoord2d(1, 0); gl.glVertex3d(x2 + xView, y2, z1 + zView);
+                gl.glTexCoord2d(1, 1); gl.glVertex3d(x2 + xView, y3, z2 + zView);
+                gl.glTexCoord2d(1, 1); gl.glVertex3d(x2 + xView, y3, z2 + zView);
+                gl.glTexCoord2d(0, 1); gl.glVertex3d(x1 + xView, y4, z2 + zView);
+                gl.glTexCoord2d(0, 0); gl.glVertex3d(x1 + xView, y1, z1 + zView);
             }
         gl.glEnd();
     }
 
     static double getHeight(int x, int z) {
-        int mapX = x % mapSize;
-        int mapZ = z % mapSize;
+        int mapX = Math.abs(x) % mapSize;
+        int mapZ = Math.abs(z) % mapSize;
         return (pHeightMap[mapX + (mapZ * mapSize)] & 0xFF);
     }
 
