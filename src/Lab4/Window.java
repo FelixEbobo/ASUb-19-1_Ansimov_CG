@@ -1,4 +1,4 @@
-package Lab3;
+package Lab4;
 
 import Lab2.TextureLoader;
 import com.jogamp.opengl.*;
@@ -9,12 +9,16 @@ import com.jogamp.opengl.util.texture.Texture;
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.SplittableRandom;
 
 public class Window extends JFrame implements KeyListener{
 
     protected static float xView, yView;
     protected static float zView;
+    protected static float xAngle, yAngle, zAngle;
+    public static SkyBox skybox;
+    public static Controller controller;
+    public static Forest forest;
+    public static Helicopter helicopter;
     public static float aView = 45f;
     protected static String label = String.format("x: %f y: %f z: %f aView: %f", xView, yView, zView, aView);
     private static Texture chessBoardText;
@@ -54,6 +58,28 @@ public class Window extends JFrame implements KeyListener{
                 gl.glClearColor(.9f, .9f, 1, 0);
 
                 grassText = TextureLoader.load(gl, "Grass.png");
+
+                gl.glTexEnvf(GL2.GL_TEXTURE_ENV, GL2.GL_TEXTURE_ENV_MODE, GL2.GL_MODULATE);
+                gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
+                gl.glEnable(GL2.GL_ALPHA_TEST);
+                gl.glEnable(GL.GL_BLEND);
+                gl.glEnable(GL.GL_TEXTURE_2D);
+
+                byte[] pHeightMap = TerrainLoader.load("Terraria.raw", 256);
+                float[][] forestMap = TerrainLoader.createForestMap(100, 256, pHeightMap);
+
+                skybox = new SkyBox(TextureLoader.load(gl,"Sky.png"));
+
+                forest = new Forest();
+                forest.texture = TextureLoader.load(gl, "tree1.png");
+                forest.setForest(forestMap[0], forestMap[1], forestMap[2]);
+
+                helicopter = new Helicopter(gl);
+                helicopter.position.y = 100;
+                yView = 120;
+                yAngle = 180;
+
+
             }
 
             @Override
@@ -66,7 +92,6 @@ public class Window extends JFrame implements KeyListener{
                 gl.glEnable(GL.GL_TEXTURE_2D);
                 gl.glTexEnvf(GL2.GL_TEXTURE_ENV, GL2.GL_TEXTURE_ENV_MODE, GL2.GL_MODULATE);
                 DrawClass.display(glautodrawable, glcanvas.getWidth(), glcanvas.getHeight());
-
             }
 
 
@@ -77,7 +102,8 @@ public class Window extends JFrame implements KeyListener{
         this.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         this.setSize( 640, 480);
         this.setVisible( true );
-        this.addKeyListener(this);
+        controller = new Controller();
+        this.addKeyListener(controller);
         animator = new FPSAnimator(glcanvas, 50, true);
         animator.start();
     }

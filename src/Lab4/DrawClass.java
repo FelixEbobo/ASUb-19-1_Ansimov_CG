@@ -1,11 +1,11 @@
-package Lab3;
+package Lab4;
 
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.glu.GLU;
-import static Lab3.Window.xView;
-import static Lab3.Window.zView;
+
+import static Lab4.Window.*;
 
 public class DrawClass {
     private static int mapSize = 256;
@@ -27,9 +27,9 @@ public class DrawClass {
 
         gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glLoadIdentity();
-        glu.gluPerspective(Lab3.Window.aView, h, 1.0, 60);
+        glu.gluPerspective(Window.aView, h, 1.0, 60);
 
-        glu.gluLookAt(0, Window.yView, 3, 0, 0, 0, 0, 1, 0);
+//        glu.gluLookAt(0, Window.yView, 3, 0, 0, 0, 0, 1, 0);
         gl.glMatrixMode(GL2.GL_MODELVIEW);
 
         gl.glEnable(GL2.GL_DEPTH_TEST);
@@ -40,32 +40,47 @@ public class DrawClass {
         int zV = (int) ((Window.zView-(Window.zView%105))/105);
         int xV = (int) ((Window.xView-(Window.xView%105))/105);
 
-        drawLab3(gl, mapSize - mapSize * xV, 2 * mapSize - mapSize * xV,
-                 - mapSize - mapSize * zV, - mapSize * zV);
+        drawLab3(gl, 0, 2 * mapSize,
+                 0, - mapSize * zV);
 
-        drawLab3(gl,  - mapSize * xV, mapSize - mapSize * xV,
-                - mapSize - mapSize * zV, - mapSize * zV);
+//        drawLab3(gl,  - mapSize * xV, mapSize - mapSize * xV, - mapSize - mapSize * zV, - mapSize * zV);
 
-        drawLab3(gl, - mapSize - mapSize * xV,  - mapSize * xV,
-                - mapSize - mapSize * zV, - mapSize * zV);
+//        drawLab3(gl, - mapSize - mapSize * xV,  - mapSize * xV, - mapSize - mapSize * zV, - mapSize * zV);
 
-        drawLab3(gl, mapSize - mapSize * xV, 2 * mapSize - mapSize * xV,
-                 - mapSize * zV, mapSize - mapSize * zV);
+//        drawLab3(gl, mapSize - mapSize * xV, 2 * mapSize - mapSize * xV, - mapSize * zV, mapSize - mapSize * zV);
 
-        drawLab3(gl,  - mapSize * xV, mapSize - mapSize * xV,
-                 - mapSize * zV, mapSize - mapSize * zV);
+//        drawLab3(gl,  - mapSize * xV, mapSize - mapSize * xV, - mapSize * zV, mapSize - mapSize * zV);
 
-        drawLab3(gl, - mapSize - mapSize * xV,  - mapSize * xV,
-                 - mapSize * zV, mapSize - mapSize * zV);
+//        drawLab3(gl, - mapSize - mapSize * xV,  - mapSize * xV, - mapSize * zV, mapSize - mapSize * zV);
 
-        drawLab3(gl, mapSize - mapSize * xV, 2 * mapSize - mapSize * xV,
-                mapSize - mapSize * zV, 2 * mapSize - mapSize * zV);
+//        drawLab3(gl, mapSize - mapSize * xV, 2 * mapSize - mapSize * xV, mapSize - mapSize * zV, 2 * mapSize - mapSize * zV);
 
-        drawLab3(gl,  - mapSize * xV, mapSize - mapSize * xV,
-                mapSize - mapSize * zV, 2 * mapSize - mapSize * zV);
+//        drawLab3(gl,  - mapSize * xV, mapSize - mapSize * xV, mapSize - mapSize * zV, 2 * mapSize - mapSize * zV);
 
-        drawLab3(gl, - mapSize - mapSize * xV,  - mapSize * xV,
-                 mapSize - mapSize * zV, 2 * mapSize - mapSize * zV);
+//        drawLab3(gl, - mapSize - mapSize * xV,  - mapSize * xV, mapSize - mapSize * zV, 2 * mapSize - mapSize * zV);
+
+        controller.controll();
+
+        gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
+        gl.glLoadIdentity();
+
+        gl.glRotated(-Window.xAngle, 1, 0, 0);
+        gl.glRotated(-Window.yAngle, 0, 1, 0);
+        gl.glRotated(-Window.zAngle, 0, 0, 1);
+
+        gl.glDisable(GL.GL_DEPTH_TEST);
+        Window.skybox.draw(gl);
+        gl.glEnable(GL.GL_DEPTH_TEST);
+
+        gl.glTranslated(-xView, -yView, -zView);
+
+        forest.drawForest(gl);
+
+        helicopter.draw(gl);
+        helicopter.physImpact();
+        helicopter.accel.z = (float) 0;
+
+        gl.glFlush();
 
     }
 
